@@ -1,0 +1,44 @@
+﻿@model WebAppForFile.Models.FileAndEmailModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Upload files</h1>
+
+    @using (Html.BeginForm("SaveFileAndSendEmail", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+
+            <div>
+                <label for="File" class="form-label">Select .docx File</label>
+                <input type="file" name="File" class="form-control" accept=".docx" required />
+                @Html.ValidationMessageFor(m => m.File, "", new { @class = "text-danger" })
+@*                 @Html.EditorFor(m => m.File, new { @class = "form-control", accept = ".docx" })
+                @Html.ValidationMessageFor(m => m.File, "", new { @class = "text-danger" }) *@
+            </div>
+
+            <div>
+                @Html.LabelFor(m => m.Email, new { @class = "form-label m-1" })
+            </div>
+
+            <div>
+                @Html.EditorFor(m => m.Email, new { @class = "form-control input-group-text" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+
+            @* <div class="mb-3">
+               
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                @Html.EditorFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div> *@
+        </div>
+
+        <button type="submit" class="btn btn-primary m-2">Submit</button>
+    }
+</div>
