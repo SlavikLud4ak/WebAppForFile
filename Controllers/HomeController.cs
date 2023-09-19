@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using WebAppForFile.Models;
 using WebAppForFile.Services.Abstract;
 
@@ -24,7 +26,7 @@ public class HomeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult SaveFileAndSendEmail(FileAndEmailModel faem)
+    public async Task<IActionResult> SaveFileAndSendEmailAsync(FileAndEmailModel faem)
     {
         if(faem.File == null || faem.File.FileName == null) return View("Index");
 
@@ -32,8 +34,20 @@ public class HomeController : Controller
 
         if (ModelState.IsValid)
         {
-            // Process the file and email
-            // ...
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(new { toAddress = faem.Email }), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("https://mwebappforfile.azurewebsites.net/Home/SaveFileAndSendEmail/Function1", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //
+                }
+                else
+                {
+                    // 
+                }
+            }
             return RedirectToAction("Success");
         }        
 

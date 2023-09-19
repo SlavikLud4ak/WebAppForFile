@@ -1,6 +1,8 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System.Text;
 using WebAppForFile.Options;
 using WebAppForFile.Services.Abstract;
 
@@ -31,7 +33,8 @@ namespace WebAppForFile.Services.Concrete
                 {
                     ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 }
-            }, cancellationToken: default);
+            }, cancellationToken: default);            
+
         }
     }
 }
